@@ -288,7 +288,6 @@ def pause():
         clock.tick(FPS)      
 
 def game_intro():
-
     intro = True
 
     while intro:
@@ -421,7 +420,6 @@ def gameLoop():
             enemyUFOX = -random.randrange(50,500)
 
         randomFire = random.randrange(1,15)
-
         enemyFiring(randomFire)
     
         gameDisplay.fill(black)
