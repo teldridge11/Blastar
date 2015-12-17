@@ -4,11 +4,13 @@ import random
 
 pygame.init()
 
+# Display
 display_width = 800
 display_height = 600
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('UFOs')
 
+# Colors
 white = (255,255,255)
 black = (0,0,0)
 gray = (100,100,100)
@@ -20,37 +22,41 @@ green = (34,177,76)
 light_green = (0,255,0)
 blue = (0,0,255)
 
+# Clock
 clock = pygame.time.Clock()
+FPS = 25
 
+# UFO
 UFOWidth = 40
 UFOHeight = 20
 turretWidth = 5
+UFOshotStart = 20
+UFOshotEnd = 50
+mainUFOSpeed = 4
+mainUFOX = display_width * 0.9
+mainUFOY = display_height * 0.9
+UFOMove = 0
 
+# Health
 newScore = 0
 newhealth = 10
 
-mainUFOSpeed = 4
+# Enemy UFO
 enemyUFOSpeed = 7
-
-UFOshotStart = 20
-UFOshotEnd = 50
-
-FPS = 25
-UFOMove = 0
-mainUFOX = display_width * 0.9
-mainUFOY = display_height * 0.9
-
 enemyUFOX = display_width * 0.1
 enemyUFOY = display_height * 0.1
 
+# Fonts
 smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 85)
 
+# Score display
 def score(score):
     text = smallfont.render("Score: "+str(score), True, white)
     gameDisplay.blit(text, [5,5])
 
+# Font sizes
 def text_objects(text, color,size = "small"):
     if size == "small":
         textSurface = smallfont.render(text, True, color)
@@ -60,16 +66,19 @@ def text_objects(text, color,size = "small"):
         textSurface = largefont.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
+# Display buttons
 def text_to_button(msg, color, buttonx, buttony, buttonwidth, buttonheight, size = "small"):
     textSurf, textRect = text_objects(msg,color,size)
     textRect.center = ((buttonx+(buttonwidth/2)), buttony+(buttonheight/2))
     gameDisplay.blit(textSurf, textRect)
-   
+
+# Display message to screen   
 def message_to_screen(msg,color, y_displace = 0, size = "small"):
     textSurf, textRect = text_objects(msg,color,size)
     textRect.center = (int(display_width / 2), int(display_height / 2)+y_displace)
     gameDisplay.blit(textSurf, textRect)
 
+# UFO
 def UFO(x,y):
     x = int(x)
     y = int(y)
@@ -78,6 +87,7 @@ def UFO(x,y):
     pygame.draw.ellipse(gameDisplay, blue, (x-UFOHeight, y, UFOWidth, UFOHeight))
     pygame.draw.line(gameDisplay,blue,(x,y),(x,y-20),turretWidth)
 
+# Enemy UFO
 def enemy_UFO(x,y):
     x = int(x)
     y = int(y)
@@ -85,6 +95,7 @@ def enemy_UFO(x,y):
     pygame.draw.circle(gameDisplay, blue, (x,y), int(UFOHeight/2))
     pygame.draw.ellipse(gameDisplay, blue, (x-UFOHeight, y, UFOWidth, UFOHeight))
 
+# Player Health
 def health_bar(player_health):
     if player_health > 7.5:
         player_health_color = green
@@ -97,6 +108,7 @@ def health_bar(player_health):
     gameDisplay.blit(text, [display_width-250,5])
     pygame.draw.rect(gameDisplay, player_health_color, (680, 10, player_health*10, 25))
     
+# Enemy UFO Fire    
 def enemyUFOFire():
     enemyFired = True
     #enemyUFOshotStart = 20
@@ -152,6 +164,7 @@ def enemyUFOFire():
     pygame.display.update()
     clock.tick(FPS)
 
+# UFO Fire
 def fire():
     fired = True
     global UFOshotStart
@@ -220,6 +233,7 @@ def fire():
         if display_height-UFOshotEnd < 0:
             fired = False
 
+# Controls screen
 def game_controls():
     gcont = True
 
@@ -242,6 +256,7 @@ def game_controls():
         pygame.display.update()
         clock.tick(15)
 
+# Buttons
 def button(text, x, y, width, height, inactive_color, active_color, action = None):
     cur = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
@@ -264,6 +279,7 @@ def button(text, x, y, width, height, inactive_color, active_color, action = Non
 
     text_to_button(text,black,x,y,width,height)
 
+# Pause Screen
 def pause():
     paused = True
     message_to_screen("Paused",blue,-100,size="large")
@@ -285,6 +301,7 @@ def pause():
 
         clock.tick(FPS)      
 
+# Game Intro Screen
 def game_intro():
     intro = True
 
@@ -311,6 +328,7 @@ def game_intro():
         pygame.display.update()
         clock.tick(15)
 
+# Game Over Screen
 def game_over():
     game_over = True
 
@@ -331,6 +349,7 @@ def game_over():
         pygame.display.update()
         clock.tick(15)
 
+# You Win Screen
 def you_win():
     win = True
     global newhealth
@@ -355,10 +374,12 @@ def you_win():
         pygame.display.update()
         clock.tick(FPS)
 
+# Random Enemy Firing
 def enemyFiring(random):
     if random == 1:
         enemyUFOFire()
 
+# Main Game Loop
 def gameLoop():
     gameExit = False
     gameOver = False
@@ -382,6 +403,8 @@ def gameLoop():
                     if event.type == pygame.QUIT:
                         gameExit = True
                         gameOver = False
+                    
+                    # Paue/Quit Controls
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_p:
                             gameLoop()
@@ -393,6 +416,7 @@ def gameLoop():
             if event.type == pygame.QUIT:
                 gameExit = True
 
+            # UFO Movement Controls
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     UFOMove = -mainUFOSpeed
@@ -411,29 +435,37 @@ def gameLoop():
                     if event.key == pygame.K_RIGHT:
                         UFOMove = 0
         
+        # Update UFO movements
         mainUFOX += UFOMove
         enemyUFOX += enemyUFOSpeed
 
+        # Respawn Enemy UFO's
         if enemyUFOX > display_width:
             enemyUFOX = -random.randrange(50,500)
 
+        # Enemy firing
         randomFire = random.randrange(1,15)
         enemyFiring(randomFire)
     
+        # Re-Display UFO's
         gameDisplay.fill(black)
         UFO(mainUFOX,mainUFOY)
         enemy_UFO(enemyUFOX, enemyUFOY)
-
-        score(newScore)
+        
+        # Update Health
         health_bar(newhealth)
 
+        # Update Score 
+        score(newScore)
         if newScore >= 10:
             you_win()
-
         if newhealth <= 0:
             gameOver = True
         
+        # Update Display
         pygame.display.update()
+        
+        # Clock ticks
         clock.tick(FPS)
 
     pygame.quit()
