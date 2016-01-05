@@ -104,6 +104,7 @@ def health_bar(player_health):
     else:
         player_health_color = red
 
+    # Display Health Bar To Screen
     text = smallfont.render("Health: ", True, white)
     gameDisplay.blit(text, [display_width-250,5])
     pygame.draw.rect(gameDisplay, player_health_color, (680, 10, player_health*10, 25))
@@ -172,6 +173,7 @@ def fire():
             if event.type == pygame.QUIT:
                 gameExit = True
 
+            # UFO Controls
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     UFOMove = -mainUFOSpeed
@@ -179,7 +181,6 @@ def fire():
                     UFOMove = mainUFOSpeed
                 elif event.key == pygame.K_p:
                     pause()
-
             elif event.type == pygame.KEYUP:
                 if UFOMove == -mainUFOSpeed:
                     if event.key == pygame.K_LEFT:
@@ -188,7 +189,10 @@ def fire():
                     if event.key == pygame.K_RIGHT:
                         UFOMove = 0
 
+        # Fill Screen Black
         gameDisplay.fill(black)
+        
+        # Update UFO's
         mainUFOX += UFOMove
         enemyUFOX += enemyUFOSpeed
         UFO(mainUFOX,mainUFOY)
