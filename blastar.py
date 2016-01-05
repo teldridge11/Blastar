@@ -198,11 +198,14 @@ def fire():
         UFO(mainUFOX,mainUFOY)
         UFO(mainUFOX,mainUFOY)
         enemy_UFO(enemyUFOX,enemyUFOY)
+        
+        # Update Projectiles
         UFOXfiredMovement = UFOXfiredMovement+UFOMove
         pygame.draw.line(gameDisplay,red,(mainUFOX-UFOXfiredMovement,mainUFOY-UFOshotStart),(mainUFOX-UFOXfiredMovement,mainUFOY-UFOshotEnd), turretWidth)
         UFOshotEnd += 20
         UFOshotStart += 20
         
+        # Random Firing
         randomFire = random.randrange(1,15)
         enemyFiring(randomFire)
 
