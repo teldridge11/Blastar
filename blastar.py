@@ -111,8 +111,6 @@ def health_bar(player_health):
 # Enemy UFO Fire    
 def enemyUFOFire():
     enemyFired = True
-    #enemyUFOshotStart = 20
-    #enemyUFOshotEnd = 50
     global mainUFOX
     global mainUFOY
     global enemyUFOX
@@ -121,47 +119,33 @@ def enemyUFOFire():
     global enemyUFOSpeed
     global newScore
     global newhealth
-    
-    """
-    while enemyFired == True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                gameExit = True
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    UFOMove = -5                
-                elif event.key == pygame.K_RIGHT:
-                    UFOMove = 5       
-                elif event.key == pygame.K_p:
-                    pause()
-                elif event.key == pygame.K_SPACE:
-                    fire()
-
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    UFOMove = 0
-        """
+    # UFO's Movement
     mainUFOX += UFOMove
     enemyUFOX += enemyUFOSpeed
-        #UFO(mainUFOX,mainUFOY)
+    
+    # Display black screen
     gameDisplay.fill(black)
+    
+    # Display UFO's
     UFO(mainUFOX,mainUFOY)
     enemy_UFO(enemyUFOX,enemyUFOY)
-        #enemyUFOshotEnd += 10
-        #enemyUFOshotStart += 10
-        #if display_height-enemyUFOshotEnd < 0:
-        #    enemyFired = False
 
+    # Draw Laser Beam
     pygame.draw.line(gameDisplay,green,(enemyUFOX,enemyUFOY+20),(enemyUFOX,enemyUFOY+500), turretWidth)
 
+    # Laser Beam HIT (Lost health)
     if mainUFOX+(UFOWidth/2) >= enemyUFOX+(UFOWidth/2) >= mainUFOX-(UFOWidth/2):
         newhealth -= 1
-        
+    
+    # Update Score and Health   
     score(newScore)
     health_bar(newhealth)
-                    
+    
+    # Update Display                
     pygame.display.update()
+    
+    # Clock Tick
     clock.tick(FPS)
 
 # UFO Fire
