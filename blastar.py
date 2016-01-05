@@ -179,8 +179,6 @@ def fire():
                     UFOMove = mainUFOSpeed
                 elif event.key == pygame.K_p:
                     pause()
-                #elif event.key == pygame.K_SPACE:
-                #    fire()
 
             elif event.type == pygame.KEYUP:
                 if UFOMove == -mainUFOSpeed:
@@ -341,16 +339,21 @@ def you_win():
     newhealth = 10
     newScore = 0
 
+    # Display Win Screen
     while win:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
 
+        # Dispaly Black Screen
         gameDisplay.fill(black)
+        
+        # Display Message To Screen
         message_to_screen("You won!",blue,-100,size="large")
         message_to_screen("Congratulations!",blue,-30)
 
+        # Display Buttons
         button("play Again", 150,450,150,50, green, light_green, action="play")
         button("controls", 350,450,100,50, yellow, light_yellow, action="controls")
         button("quit", 550,450,100,50, red, light_red, action ="quit")
